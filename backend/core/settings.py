@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-d$*x6(io9r*s$n7)4%*yt^%w_pps&z5w#)e^wu%bdg559*uvp0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,15 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
     'rest_framework.authtoken',
-    'guard.apps.GuardConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 
-AUTH_USER_MODEL = 'guard.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
-SITE_ID = 1
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
