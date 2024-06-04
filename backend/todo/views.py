@@ -15,7 +15,12 @@ class TodoListApiView(views.APIView):
     def get(self, request, *args, **kwargs):
         todos = Todo.objects.filter(user=request.user.id)
         serializer = TodoSerializer(todos, many=True)
-        return response.Response(serializer.data, status=status.HTTP_200_OK)
+        custom_data = {
+            'count': todos.count,
+            'result': serializer.data,
+            'message': "List of todo items retrieved successfully"
+        }
+        return response.Response(custom_data, status=status.HTTP_200_OK)
 
     # 2. Create
     def post(self, request, *args, **kwargs):
