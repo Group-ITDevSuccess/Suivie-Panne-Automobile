@@ -92,3 +92,4 @@ core/.env
 .venv/
 venv/
 migrations/
+*.pyc
