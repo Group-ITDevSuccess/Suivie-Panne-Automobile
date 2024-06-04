@@ -1,0 +1,1 @@
+pip install djangorestframework-simplejwt djoser django-filter djangorestframework markdown mysqlclient django-import-export Pillow ldap3 python-dotenv
