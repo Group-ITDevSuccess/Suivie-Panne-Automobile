@@ -2,12 +2,13 @@ import 'react-tabulator/lib/css/tabulator_simple.min.css';
 import { ReactTabulator } from 'react-tabulator';
 import Container from "react-bootstrap/Container";
 import Card from 'react-bootstrap/Card';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client.jsx";
 import { API_GET_ALL_USER } from "../../../config.js";
 import { toast } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
-import Spinner from "react-bootstrap/Spinner";
+import { Spinner, Alert } from 'react-bootstrap';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 export function Administration() {
     const columns = [
@@ -25,11 +26,11 @@ export function Administration() {
         { title: "Prénom", field: "last_name", vertAlign: "bottom" },
         { title: "Email", field: "email" },
         {
-            title: "Niveau d'Accès", cssClass: "bg-warning text-center", columns: [
-                { title: "Autoriser", field: "authoriser", hozAlign: "center", formatter: "tickCross" },
-                { title: "Staff", field: "is_staff", hozAlign: "center", formatter: "tickCross" },
-                { title: "Administrateur", field: "is_superuser",  hozAlign: "center", formatter: "tickCross" },
-                { title: "Active", field: "is_actif", hozAlign: "center", formatter: "tickCross" },
+            title: "Niveau d'Accès", cssClass: "bg-success text-center text-white", columns: [
+                { title: "Autoriser", field: "authoriser", cssClass: "bg-secondary text-center text-white", hozAlign: "center", formatter: "tickCross" },
+                { title: "Staff", field: "is_staff", cssClass: "bg-secondary text-center text-white", hozAlign: "center", formatter: "tickCross" },
+                { title: "Administrateur", field: "is_superuser", cssClass: "bg-secondary text-center text-white", hozAlign: "center", formatter: "tickCross" },
+                { title: "Active", field: "is_actif", cssClass: "bg-secondary text-center text-white", hozAlign: "center", formatter: "tickCross" },
             ]
         }
     ];
@@ -37,6 +38,7 @@ export function Administration() {
     const { isLoading, error, data } = useQuery({
         queryKey: ['users'],
         queryFn: () => axiosClient.get(API_GET_ALL_USER).then(({ data }) => {
+            console.log(data.users);
             return data.users;
         }).catch((err) => {
             toast.error("Erreur de récupération de la base !");
@@ -46,7 +48,18 @@ export function Administration() {
 
     if (error) {
         toast.error(error.message);
-        return <p>Erreur de récupération de la base !</p>;
+        return (
+            <Container fluid>
+                <Card>
+                    <Card.Body>
+                        <Alert variant="danger" className="d-flex align-items-center">
+                            <FaExclamationTriangle className="me-2" />
+                            Erreur de récupération de la base !
+                        </Alert>
+                    </Card.Body>
+                </Card>
+            </Container>
+        );
     }
 
     return (
@@ -54,10 +67,9 @@ export function Administration() {
             <Card>
                 <Card.Body>
                     {isLoading ? (
-                        <div className="d-flex justify-content-center mt-3">
-                            <Spinner animation="border" role="status">
-                                <span className="visually-hidden"></span>
-                            </Spinner>
+                        <div className="d-flex justify-content-center align-items-center" style={{ height: '75vh' }}>
+                            <Spinner animation="border" variant="primary" />
+                            <span className="ms-2"></span>
                         </div>
                     ) : (
                         <ReactTabulator
