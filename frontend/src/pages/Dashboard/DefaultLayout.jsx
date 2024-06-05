@@ -17,18 +17,13 @@ export function DefaultLayout() {
     console.log("TOKEN STO", payload);
     useEffect(() => {
         if (!token) {
-            navigate(LOGIN_URL_NAVIGATE);
-            return;
+            return navigate(LOGIN_URL_NAVIGATE);
         }
         setLoading(true);
         axiosClient.post(API_TOKEN_ME, payload).then(({ data }) => {
-            console.log(data);
-            setUser(data.user);
             setLoading(false);
-            setToken(data.token);
             navigate(DASHBOARD_URL_NAVIGATE)
         }).catch(err => {
-            console.log(err);
             setToken(null);
             setUser(null);
             setLoading(false);

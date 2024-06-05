@@ -69,7 +69,7 @@ export function LoginPage() {
               <div className="icon d-flex align-items-center justify-content-center bg-white text-success">
                 <div className="div-logo">
                   <img
-                    src="../../../public/inviso-group.png"
+                    src="/inviso-group.png"
                     style={{
                       maxWidth: "120px",
                       border: "1px solid #138808",
