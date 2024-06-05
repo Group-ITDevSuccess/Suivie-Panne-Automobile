@@ -49,7 +49,6 @@ export function LoginPage() {
             } else if(response && response.status === 401) {
                 setUnAuthorised(response.data.error);
             }
-            toast.error("Une erreur !");
             setLoading(false);
         });
     }, 2000);
