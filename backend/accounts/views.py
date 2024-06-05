@@ -1,6 +1,7 @@
 from rest_framework import status, response, decorators, permissions
 from rest_framework.authtoken.models import Token
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from .models import CustomUser
 from .serializers import UserSerializer
@@ -18,6 +19,7 @@ def register_user(request):
 
 @decorators.api_view(['POST'])
 def login_user(request):
+    print("DATA : ", request.data)
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
@@ -36,6 +38,18 @@ def login_user(request):
             return response.Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
             return response.Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@decorators.api_view(['GET'])
+def token_user(request):
+    if request.method == 'GET':
+        print(request.data)
+        token = None
+        try:
+            token = Token.objects.all().first()
+            return response.Response({'token': token.key}, status=status.HTTP_200_OK)
+        except:
+            return response.Response({'error': 'Invalid credentials', 'token': token}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @decorators.api_view(['POST'])
