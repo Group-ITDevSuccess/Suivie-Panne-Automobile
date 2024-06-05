@@ -86,7 +86,7 @@ export function LoginPage() {
                   />
                 </div>
               </div>
-              <LoginForm onSubmit={onSubmit} usernameRef={usernameRef} passwordRef={passwordRef} />
+              <LoginForm onSubmit={onSubmit} usernameRef={usernameRef} passwordRef={passwordRef} loading={loading} />
             </Stack>
           </div>
         </div>
