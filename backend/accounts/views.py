@@ -35,21 +35,25 @@ def login_user(request):
 
         if user:
             token, _ = Token.objects.get_or_create(user=user)
-            return response.Response({'token': token.key}, status=status.HTTP_200_OK)
+            return response.Response({'token': token.key, 'user': username}, status=status.HTTP_200_OK)
         else:
             return response.Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-@decorators.api_view(['GET'])
+@decorators.api_view(['POST'])
 def token_user(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         print(request.data)
         token = None
-        try:
-            token = Token.objects.all().first()
-            return response.Response({'token': token.key}, status=status.HTTP_200_OK)
-        except:
-            return response.Response({'error': 'Invalid credentials', 'token': token}, status=status.HTTP_401_UNAUTHORIZED)
+        get_token = request.data.get('token')
+        if get_token is not None:
+            try:
+                check = Token.objects.filter(get_token=get_token).exist()
+                if check:
+                    token = get_token
+            except:
+                return response.Response({'error': 'Invalid credentials', 'token': token}, status=status.HTTP_401_UNAUTHORIZED)
+        return response.Response({'token': token}, status=status.HTTP_200_OK)
 
 
 @decorators.api_view(['POST'])

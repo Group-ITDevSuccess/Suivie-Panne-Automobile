@@ -9,6 +9,7 @@ import Stack from 'react-bootstrap/Stack';
 import axiosClient from '../../axios-client.jsx';
 import { toast } from 'react-hot-toast';
 import { useStateContext } from '../../context/ContextProvider.jsx';
+import { API_LOGIN, DASHBOARD_URL_NAVIGATE } from "../../../config.js";
 
 export function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -32,30 +33,27 @@ export function LoginPage() {
             password: passwordRef.current.value
         };
 
-        console.log("Payload: ", payload);
-
-        axiosClient.post('/login/', payload).then(({ data }) => {
+        axiosClient.post(API_LOGIN, payload).then(({ data }) => {
             console.log("Response Data: ", data);
             setUser(data.user);
-            setToken(data.token); // Assuming your backend returns a token
-            localStorage.setItem('ACCESS_TOKEN', data.token);
+            setToken(data.token);
             setErrors(null);
             setUnAuthorised(null);
             setLoading(false);
             toast.success(`Heureux de vous revoir !`);
-            navigate('/'); // Redirect after successful login
+            navigate(DASHBOARD_URL_NAVIGATE);
         }).catch(err => {
             const response = err.response;
-            setLoading(false);
-            console.log("Erreur : ", err);
-            if (response) {
-                console.log("Response Error Data: ", response.data);
+            if (response && response.status === 422) {
+                setErrors(response.data.errors);
+            } else if(response && response.status === 401) {
+                setUnAuthorised(response.data.error);
             }
             toast.error("Une erreur !");
+            setLoading(false);
         });
     }, 2000);
-};
-
+  };
 
   return (
     <>
@@ -66,19 +64,6 @@ export function LoginPage() {
           </Col>
         </Row>
         <div className="row justify-content-center">
-          {(errors && (
-            <div className='alert alert-danger'>
-              {Object.keys(errors).map(key => (
-                <span key={key}>{errors[key]} <br /></span>
-              ))}
-            </div>
-          )) || (
-            unAuthorised && (
-              <div className='alert alert-danger'>
-                <span>{unAuthorised}</span>
-              </div>
-            )
-          )}
           <div className="col-md-6 col-lg-4">
             <Stack className="login-wrap p-4 p-md-5 shadow">
               <div className="icon d-flex align-items-center justify-content-center bg-white text-success">

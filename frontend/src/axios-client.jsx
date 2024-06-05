@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import {API_BASE_URL} from "../config.js";
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:8000/accounts'
+    baseURL: API_BASE_URL
 });
 
 // Request interceptor
@@ -28,6 +29,7 @@ axiosClient.interceptors.response.use((response) => {
     } else if (response.status === 404) {
         toast.error("Oups, impossible d'accéder au serveur !");
     } else {
+        console.log(response)
         toast.error("Une erreur est survenue !");
     }
 
