@@ -43,7 +43,7 @@ export function DefaultLayout() {
         <div id="">
             {loading && <Loader />}
             {!loading && (
-                <Container>
+                <div>
                     <div className='content-body'>
                         <Outlet />
                     </div>
@@ -52,7 +52,7 @@ export function DefaultLayout() {
                             <p>Copyright &copy; <Link to={DASHBOARD_URL_NAVIGATE}>SUIVIE PANNE</Link> {new Date(Date.now()).getFullYear()}</p>
                         </div>
                     </div>
-                </Container>
+                </div>
             )}
         </div>
     );

@@ -24,7 +24,7 @@ export const LoginForm = ({ onSubmit, usernameRef, passwordRef, loading }) => {
                             {loading && (
                                 <div className="d-flex justify-content-center mt-3">
                                     <Spinner animation="border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
+                                        <span className="visually-hidden"></span>
                                     </Spinner>
                                 </div>
                             )}

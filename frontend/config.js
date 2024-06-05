@@ -1,6 +1,7 @@
 export const API_BASE_URL = 'http://localhost:8000/accounts';
 export const API_TOKEN_ME = '/token/me/';
 export const API_LOGIN = '/login/';
+export const API_LOGOUT = '/logout/';
 
 //Navigation
 export const LOGIN_URL_NAVIGATE = '/accounts/login';

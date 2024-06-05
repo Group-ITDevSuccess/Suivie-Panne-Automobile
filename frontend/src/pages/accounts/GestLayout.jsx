@@ -1,6 +1,8 @@
-import {useStateContext} from "../../../context/ContextProvider.jsx";
+import {useStateContext} from "../../context/ContextProvider.jsx";
 import { Link, Navigate, Outlet } from 'react-router-dom'
-import {DASHBOARD_URL_NAVIGATE} from "../../../../config.js";
+import {DASHBOARD_URL_NAVIGATE} from "../../../config.js";
+import '../../assets/accounts/style.css'
+
 export const GestLayout = () => {
     const {token} = useStateContext();
     console.log("Use Token", token)
