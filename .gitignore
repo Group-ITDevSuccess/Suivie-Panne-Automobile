@@ -93,3 +93,4 @@ core/.env
 venv/
 migrations/
 *.pyc
+!/backend/.env
