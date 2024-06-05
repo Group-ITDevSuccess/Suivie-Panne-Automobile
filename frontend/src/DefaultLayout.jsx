@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { useStateContext } from '../../context/ContextProvider.jsx';
-import axiosClient from '../../axios-client.jsx';
-import { Loader } from '../../shared/Loader.jsx';
+import { useStateContext } from './context/ContextProvider.jsx';
+import axiosClient from './axios-client.jsx';
+import { Loader } from './shared/Loader.jsx';
 import Container from 'react-bootstrap/Container';
-import { DASHBOARD_URL_NAVIGATE, LOGIN_URL_NAVIGATE, API_TOKEN_ME } from "../../../config.js";
-import CustomNavbar from "../../shared/CustomNavbar.jsx";
+import { DASHBOARD_URL_NAVIGATE, LOGIN_URL_NAVIGATE, API_TOKEN_ME } from "../config.js";
+import CustomNavbar from "./shared/CustomNavbar.jsx";
 import { Navbar, Nav } from 'react-bootstrap'; // Importer les composants Navbar et Nav de react-bootstrap
 
 export function DefaultLayout() {
@@ -42,7 +42,7 @@ export function DefaultLayout() {
     }
 
     return (
-        <div id="">
+         <div id="">
             {loading && <Loader />}
             {!loading && (
                 <div>
@@ -50,16 +50,14 @@ export function DefaultLayout() {
                     <div className='content-body'>
                         <Outlet />
                     </div>
-                    <Navbar bg="dark" variant="dark" className="footer">
+                    <Navbar bg="dark" variant="dark" className="footer mt-3 d-flex justify-content-between align-items-center"> {/* Ajoutez les classes d-flex, justify-content-between et align-items-center */}
                         <Container fluid>
-                            <Nav className="me-auto">
-                                <Nav.Link as={Link} to={DASHBOARD_URL_NAVIGATE}>SUIVIE PANNE</Nav.Link>
-                            </Nav>
-                            <Nav>
-                                <Nav.Item>
-                                    <p className="text-muted">&copy; {new Date(Date.now()).getFullYear()} SUIVIE PANNE</p>
-                                </Nav.Item>
-                            </Nav>
+                            <div>
+                                <p className="text-muted">Inviso Group</p>
+                            </div>
+                            <div>
+                                <p className="text-muted">&copy; {new Date(Date.now()).getFullYear()} SUIVIE PANNE</p>
+                            </div>
                         </Container>
                     </Navbar>
                 </div>

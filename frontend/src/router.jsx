@@ -3,7 +3,7 @@ import {LoginPage} from "./pages/accounts/LoginPage.jsx";
 import React from "react";
 import {GestLayout} from "./pages/accounts/GestLayout.jsx";
 import NotFound from "./shared/NotFound.jsx";
-import {DefaultLayout} from "./pages/Dashboard/DefaultLayout.jsx";
+import {DefaultLayout} from "./DefaultLayout.jsx";
 import {
     ADMINISTRATION_URL_NAVIGATE,
     DASHBOARD_URL_NAVIGATE,
