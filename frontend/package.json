@@ -27,7 +27,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.5",
     "react-hot-toast": "^2.4.1",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "react-tabulator": "^0.19.0"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.35.6",

@@ -5,7 +5,6 @@ import CustomNavbar from "../../shared/CustomNavbar.jsx";
 export const Dashboard = () => {
     return (
         <>
-            <CustomNavbar />
             <h1>Dashboard CUSTOM Home</h1>
         </>
     )

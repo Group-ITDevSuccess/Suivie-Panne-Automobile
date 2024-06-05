@@ -7,3 +7,5 @@ export const API_LOGOUT = '/logout/';
 export const LOGIN_URL_NAVIGATE = '/accounts/login';
 export const REGISTER_URL_NAVIGATE = '/accounts/register';
 export const DASHBOARD_URL_NAVIGATE = '/dashboard';
+
+export const ADMINISTRATION_URL_NAVIGATE = '/administration';

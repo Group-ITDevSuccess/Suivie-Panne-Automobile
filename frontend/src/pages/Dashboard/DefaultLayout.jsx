@@ -5,6 +5,8 @@ import axiosClient from '../../axios-client.jsx';
 import { Loader } from '../../shared/Loader.jsx';
 import Container from 'react-bootstrap/Container';
 import { DASHBOARD_URL_NAVIGATE, LOGIN_URL_NAVIGATE, API_TOKEN_ME } from "../../../config.js";
+import CustomNavbar from "../../shared/CustomNavbar.jsx";
+import { Navbar, Nav } from 'react-bootstrap'; // Importer les composants Navbar et Nav de react-bootstrap
 
 export function DefaultLayout() {
     const { user, token, setUser, setToken } = useStateContext();
@@ -44,14 +46,22 @@ export function DefaultLayout() {
             {loading && <Loader />}
             {!loading && (
                 <div>
+                    <CustomNavbar />
                     <div className='content-body'>
                         <Outlet />
                     </div>
-                    <div className="footer">
-                        <div className="copyright">
-                            <p>Copyright &copy; <Link to={DASHBOARD_URL_NAVIGATE}>SUIVIE PANNE</Link> {new Date(Date.now()).getFullYear()}</p>
-                        </div>
-                    </div>
+                    <Navbar bg="dark" variant="dark" className="footer">
+                        <Container fluid>
+                            <Nav className="me-auto">
+                                <Nav.Link as={Link} to={DASHBOARD_URL_NAVIGATE}>SUIVIE PANNE</Nav.Link>
+                            </Nav>
+                            <Nav>
+                                <Nav.Item>
+                                    <p className="text-muted">&copy; {new Date(Date.now()).getFullYear()} SUIVIE PANNE</p>
+                                </Nav.Item>
+                            </Nav>
+                        </Container>
+                    </Navbar>
                 </div>
             )}
         </div>

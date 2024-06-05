@@ -4,8 +4,14 @@ import React from "react";
 import {GestLayout} from "./pages/accounts/GestLayout.jsx";
 import NotFound from "./shared/NotFound.jsx";
 import {DefaultLayout} from "./pages/Dashboard/DefaultLayout.jsx";
-import {DASHBOARD_URL_NAVIGATE, LOGIN_URL_NAVIGATE, REGISTER_URL_NAVIGATE} from "../config.js";
+import {
+    ADMINISTRATION_URL_NAVIGATE,
+    DASHBOARD_URL_NAVIGATE,
+    LOGIN_URL_NAVIGATE,
+    REGISTER_URL_NAVIGATE
+} from "../config.js";
 import {Dashboard} from "./pages/Dashboard/Dashboard.jsx";
+import {Administration} from "./pages/administration/Administration.jsx";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +37,10 @@ const router = createBrowserRouter([
             {
                 path: DASHBOARD_URL_NAVIGATE,
                 element: <Dashboard />
+            },
+            {
+                path: ADMINISTRATION_URL_NAVIGATE,
+                element: <Administration />
             }
         ]
     },
