@@ -11,19 +11,23 @@ export function DefaultLayout() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const payload = {
-        token: token
-    };
-    console.log("TOKEN STO", payload);
     useEffect(() => {
         if (!token) {
             return navigate(LOGIN_URL_NAVIGATE);
         }
+
         setLoading(true);
-        axiosClient.post(API_TOKEN_ME, payload).then(({ data }) => {
+        axiosClient.post(API_TOKEN_ME, { user }, {
+            headers: {
+                Authorization: `Token ${token}`
+            }
+        }).then(({ data }) => {
+            setUser(data.user);
+            setToken(data.token);
             setLoading(false);
-            navigate(DASHBOARD_URL_NAVIGATE)
+            navigate(DASHBOARD_URL_NAVIGATE);
         }).catch(err => {
+            console.log(err.response?.data || err);
             setToken(null);
             setUser(null);
             setLoading(false);
@@ -37,24 +41,19 @@ export function DefaultLayout() {
 
     return (
         <div id="">
-            {
-                loading && <Loader />
-            }
-            {
-                !loading &&
-                (
-                    <Container>
-                        <div className='content-body'>
-                            <Outlet />
+            {loading && <Loader />}
+            {!loading && (
+                <Container>
+                    <div className='content-body'>
+                        <Outlet />
+                    </div>
+                    <div className="footer">
+                        <div className="copyright">
+                            <p>Copyright &copy; <Link to={DASHBOARD_URL_NAVIGATE}>SUIVIE PANNE</Link> {new Date(Date.now()).getFullYear()}</p>
                         </div>
-                        <div className="footer">
-                            <div className="copyright">
-                                <p>Copyright &copy; <Link to={DASHBOARD_URL_NAVIGATE}>SUIVIE PANNE</Link> {new Date(Date.now()).getFullYear()}</p>
-                            </div>
-                        </div>
-                    </Container>
-                )
-            }
+                    </div>
+                </Container>
+            )}
         </div>
     );
 }

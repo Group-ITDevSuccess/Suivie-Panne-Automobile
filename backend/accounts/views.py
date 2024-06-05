@@ -19,7 +19,6 @@ def register_user(request):
 
 @decorators.api_view(['POST'])
 def login_user(request):
-    print("DATA : ", request.data)
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
@@ -43,17 +42,16 @@ def login_user(request):
 @decorators.api_view(['POST'])
 def token_user(request):
     if request.method == 'POST':
-        print(request.data)
-        token = None
-        get_token = request.data.get('token')
-        if get_token is not None:
+        user_data = request.data.get('user')
+        if user_data is not None:
             try:
-                check = Token.objects.filter(get_token=get_token).exist()
-                if check:
-                    token = get_token
-            except:
-                return response.Response({'error': 'Invalid credentials', 'token': token}, status=status.HTTP_401_UNAUTHORIZED)
-        return response.Response({'token': token}, status=status.HTTP_200_OK)
+                user = CustomUser.objects.get(username=user_data)
+                token, created = Token.objects.get_or_create(user=user)
+                return response.Response({'token': token.key, 'user': user.username}, status=status.HTTP_200_OK)
+            except CustomUser.DoesNotExist:
+                return response.Response({'error': 'Invalid user'}, status=status.HTTP_401_UNAUTHORIZED)
+        return response.Response({'error': 'User data not provided'}, status=status.HTTP_400_BAD_REQUEST)
+    return response.Response({'error': 'Invalid request method'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 @decorators.api_view(['POST'])
