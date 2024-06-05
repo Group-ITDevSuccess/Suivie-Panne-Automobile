@@ -21,7 +21,6 @@ def login_user(request):
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
-
         user = None
         if '@' in username:
             try:
@@ -29,12 +28,13 @@ def login_user(request):
             except ObjectDoesNotExist:
                 pass
 
-            if not user:
-                user = authenticate(username=username, password=password)
+        if not user:
+            user = authenticate(username=username, password=password)
 
-            if user:
-                token, _ = Token.objects.get_or_create(user=user)
-                return response.Response({'token': token.key}, status=status.HTTP_200_OK)
+        if user:
+            token, _ = Token.objects.get_or_create(user=user)
+            return response.Response({'token': token.key}, status=status.HTTP_200_OK)
+        else:
             return response.Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
