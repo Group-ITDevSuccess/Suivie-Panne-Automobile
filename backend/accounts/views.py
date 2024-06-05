@@ -63,3 +63,12 @@ def logout_user(request):
             return response.Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
         except Exception as e:
             return response.Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@decorators.api_view(['GET'])
+@decorators.permission_classes([permissions.IsAuthenticated])
+def get_all_user(request):
+    if request.method == 'GET':
+        users = CustomUser.objects.all().order_by('username')
+        serializer = UserSerializer(users, many=True)
+        return response.Response({'users': serializer.data})

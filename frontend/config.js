@@ -1,7 +1,8 @@
-export const API_BASE_URL = 'http://localhost:8000/accounts';
-export const API_TOKEN_ME = '/token/me/';
-export const API_LOGIN = '/login/';
-export const API_LOGOUT = '/logout/';
+export const API_BASE_URL = 'http://localhost:8000';
+export const API_TOKEN_ME = '/accounts/token/me/';
+export const API_LOGIN = '/accounts/login/';
+export const API_LOGOUT = '/accounts/logout/';
+export const API_GET_ALL_USER = '/accounts/get-all-user/';
 
 //Navigation
 export const LOGIN_URL_NAVIGATE = '/accounts/login';
