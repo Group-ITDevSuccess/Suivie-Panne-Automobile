@@ -74,13 +74,6 @@ export function Administration() {
 
     const columns = useMemo(() => [
         {
-            accessorKey: 'ID',
-            header: 'id',
-            enableEditing: false,
-            size: 150,
-
-        },
-        {
             accessorKey: 'username',
             header: 'Session',
             muiEditTextFieldProps: {
@@ -213,7 +206,7 @@ export function Administration() {
         } : undefined,
         muiTableContainerProps: {
             sx: {
-                minHeight: '500px'
+                minHeight: '65vh'
             }
         },
         onCreatingRowCancel: () => setValidationErrors({}),
