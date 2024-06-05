@@ -30,7 +30,6 @@ function CustomNavbar() {
                             navigate(LOGIN_URL_NAVIGATE)
                         }).catch(err => {
                             const response = err.response
-                            console.log(response);
                             toast.error("Une erreur est survenue lors de la déconnexion")
                         })
                     }

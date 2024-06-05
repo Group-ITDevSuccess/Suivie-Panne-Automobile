@@ -6,7 +6,7 @@ import NotFound from "./shared/NotFound.jsx";
 import {DefaultLayout} from "./DefaultLayout.jsx";
 import {
     ADMINISTRATION_URL_NAVIGATE,
-    DASHBOARD_URL_NAVIGATE,
+    DASHBOARD_URL_NAVIGATE, HOME_URL_NAVIGATE,
     LOGIN_URL_NAVIGATE,
     REGISTER_URL_NAVIGATE
 } from "../config.js";
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         element: <DefaultLayout />,
         children: [
             {
-                path: '/',
+                path: HOME_URL_NAVIGATE,
                 element: <Navigate to={DASHBOARD_URL_NAVIGATE} />
             },
             {

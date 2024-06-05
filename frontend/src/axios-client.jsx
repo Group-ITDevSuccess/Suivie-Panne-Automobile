@@ -29,7 +29,6 @@ axiosClient.interceptors.response.use((response) => {
     } else if (response.status === 404) {
         toast.error("Oups, impossible d'accéder au serveur !");
     } else {
-        console.log(response)
         toast.error("Une erreur est survenue !");
     }
 

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
 import { useStateContext } from './context/ContextProvider.jsx';
 import axiosClient from './axios-client.jsx';
 import { Loader } from './shared/Loader.jsx';
 import Container from 'react-bootstrap/Container';
 import { DASHBOARD_URL_NAVIGATE, LOGIN_URL_NAVIGATE, API_TOKEN_ME } from "../config.js";
 import CustomNavbar from "./shared/CustomNavbar.jsx";
-import { Navbar, Nav } from 'react-bootstrap'; // Importer les composants Navbar et Nav de react-bootstrap
+import {Navbar, Spinner} from 'react-bootstrap';
 
 export function DefaultLayout() {
     const { user, token, setUser, setToken } = useStateContext();
@@ -29,7 +30,6 @@ export function DefaultLayout() {
             setLoading(false);
             navigate(DASHBOARD_URL_NAVIGATE);
         }).catch(err => {
-            console.log(err.response?.data || err);
             setToken(null);
             setUser(null);
             setLoading(false);
@@ -48,7 +48,14 @@ export function DefaultLayout() {
                 <div>
                     <CustomNavbar />
                     <div className='content-body'>
+                         {loading ? (
+                        <div className="d-flex justify-content-center align-items-center" style={{ height: '75vh' }}>
+                            <Spinner animation="border" variant="primary" />
+                            <span className="ms-2"></span>
+                        </div>
+                    ) : (
                         <Outlet />
+                    )}
                     </div>
                     <Navbar bg="dark" variant="dark" className="footer mt-3 d-flex justify-content-between align-items-center"> {/* Ajoutez les classes d-flex, justify-content-between et align-items-center */}
                         <Container fluid>

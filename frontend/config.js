@@ -5,6 +5,7 @@ export const API_LOGOUT = '/accounts/logout/';
 export const API_GET_ALL_USER = '/accounts/get-all-user/';
 
 //Navigation
+export const HOME_URL_NAVIGATE = '/';
 export const LOGIN_URL_NAVIGATE = '/accounts/login';
 export const REGISTER_URL_NAVIGATE = '/accounts/register';
 export const DASHBOARD_URL_NAVIGATE = '/dashboard';

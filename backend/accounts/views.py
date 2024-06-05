@@ -71,4 +71,5 @@ def get_all_user(request):
     if request.method == 'GET':
         users = CustomUser.objects.all().order_by('username')
         serializer = UserSerializer(users, many=True)
+        print(serializer.data)
         return response.Response({'users': serializer.data})
