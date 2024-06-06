@@ -2,11 +2,12 @@ import 'react-tabulator/lib/css/tabulator_simple.min.css';
 import Container from "react-bootstrap/Container";
 import Card from 'react-bootstrap/Card';
 import axiosClient from "../../axios-client.jsx";
-import { API_GET_ALL_USER } from "../../../config.js";
+import {API_GET_ALL_USER, API_UPDATE_USER} from "../../../config.js";
 import { toast } from "react-hot-toast";
 import { Alert } from 'react-bootstrap';
 import { FaExclamationTriangle } from 'react-icons/fa';
 import { useMemo, useState } from 'react';
+import { Switch } from '@mui/material';
 import { MRT_EditActionButtons, MaterialReactTable, useMaterialReactTable } from "material-react-table";
 import {
   Box,
@@ -37,7 +38,7 @@ function validateUser(user) {
     return {
         username: !validateRequired(user.username) ? "Identifiant Requise" : '',
         first_name: !validateRequired(user.username) ? "Nom Requise" : '',
-        email: !validateEmail(user.email) ? "Email Incorrect" : ''
+        email: !validateEmail(user.email) ? "Email Incorrect" : '',
     }
 
 }
@@ -45,7 +46,7 @@ function validateUser(user) {
 
 export function Administration() {
     const [validationErrors, setValidationErrors] = useState({});
-
+    const [users, setUsers] = useState([]);
     const { isLoading, error, data = [] } = useQuery({
         queryKey: ['users'],
         queryFn: () => axiosClient.get(API_GET_ALL_USER).then(({ data }) => {
@@ -72,72 +73,106 @@ export function Administration() {
         );
     }
 
-    const columns = useMemo(() => [
+
+    const handleSwitchChange = (id, field) => (event) => {
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.id === id ? { ...user, [field]: event.target.checked } : user
+          )
+        );
+    };
+
+      const columns = useMemo(() => [
         {
-            accessorKey: 'username',
-            header: 'Session',
-            muiEditTextFieldProps: {
-                required: true,
-                error: !!validationErrors?.username,
-                helperText: validationErrors?.username,
-                onFocus: () => setValidationErrors({
-                    ...validationErrors,
-                    username: undefined
-                }),
-            }
+          accessorKey: 'username',
+          header: 'Session',
+          muiEditTextFieldProps: {
+            required: true,
+            error: !!validationErrors?.username,
+            helperText: validationErrors?.username,
+            onFocus: () => setValidationErrors({
+              ...validationErrors,
+              username: undefined
+            }),
+          }
         },
         {
-            accessorKey: 'first_name',
-            header: 'Nom',
-            muiEditTextFieldProps: {
-                required: true,
-                error: !!validationErrors?.first_name,
-                helperText: validationErrors?.first_name,
-                onFocus: () => setValidationErrors({
-                    ...validationErrors,
-                    first_name: undefined
-                }),
-            }
+          accessorKey: 'first_name',
+          header: 'Nom',
+          muiEditTextFieldProps: {
+            required: true,
+            error: !!validationErrors?.first_name,
+            helperText: validationErrors?.first_name,
+            onFocus: () => setValidationErrors({
+              ...validationErrors,
+              first_name: undefined
+            }),
+          }
         },
         {
-            accessorKey: 'last_name',
-            header: 'Prénom',
+          accessorKey: 'last_name',
+          header: 'Prénom',
         },
         {
-            accessorKey: 'email',
-            header: 'Email',
-            muiEditTextFieldProps: {
-                type: 'email',
-                required: true,
-                error: !!validationErrors?.email,
-                helperText: validationErrors?.email,
-                onFocus: () => setValidationErrors({
-                    ...validationErrors,
-                    email: undefined
-                }),
-            }
+          accessorKey: 'email',
+          header: 'Email',
+          muiEditTextFieldProps: {
+            type: 'email',
+            required: true,
+            error: !!validationErrors?.email,
+            helperText: validationErrors?.email,
+            onFocus: () => setValidationErrors({
+              ...validationErrors,
+              email: undefined
+            }),
+          }
         },
         {
-            accessorKey: 'is_active',
-            header: 'Actif',
-            size: 150
+          accessorKey: 'is_active',
+          header: 'Actif',
+          size: 150,
+          Cell: ({ row }) => (
+            <Switch
+              checked={row.original.is_active}
+              onChange={handleSwitchChange(row.original.id, 'is_active')}
+            />
+          ),
         },
         {
-            accessorKey: 'authorizer',
-            header: 'Autorisé',
-            size: 150
+          accessorKey: 'authorizer',
+          header: 'Autorisé',
+          size: 150,
+          Cell: ({ row }) => (
+            <Switch
+              checked={row.original.authorizer}
+              onChange={handleSwitchChange(row.original.id, 'authorizer')}
+            />
+          ),
         },
         {
-            accessorKey: 'is_staff',
-            header: 'Staff',
-            size: 150
+          accessorKey: 'is_staff',
+          header: 'Staff',
+          size: 150,
+          Cell: ({ row }) => (
+            <Switch
+              checked={row.original.is_staff}
+              onChange={handleSwitchChange(row.original.id, 'is_staff')}
+            />
+          ),
         },
         {
-            accessorKey: 'is_superuser',
-            header: 'Administateur',
-            size: 150
+          accessorKey: 'is_superuser',
+          header: 'Administateur',
+          size: 150,
+          Cell: ({ row }) => (
+            <Switch
+              checked={row.original.is_superuser}
+              onChange={handleSwitchChange(row.original.id, 'is_superuser')}
+            />
+          ),
         }
-    ], [validationErrors]);
+      ], [validationErrors, users]);
+
 
     //CREATE Hook
     const {
@@ -199,6 +234,9 @@ export function Administration() {
         createDisplayMode: 'modal',
         editDisplayMode: 'modal',
         enableEditing: true,
+        initialState: {
+          columnPinning: { left: ['mrt-row-actions', 'username'], right: ['is_superuser'] },
+        },
         getRowId: (row) => row.id,
         muiToolbarAlertBannerProps: isLoadingUsersError ? {
             color: 'error',
@@ -206,7 +244,7 @@ export function Administration() {
         } : undefined,
         muiTableContainerProps: {
             sx: {
-                minHeight: '65vh'
+                minHeight: '67vh'
             }
         },
         onCreatingRowCancel: () => setValidationErrors({}),

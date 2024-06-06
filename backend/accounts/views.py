@@ -18,6 +18,22 @@ def register_user(request):
 
 
 @decorators.api_view(['POST'])
+def update_user(request):
+    print(request.data)
+    try:
+        user = CustomUser.objects.get(id=request.data['id'])
+    except CustomUser.DoesNotExist:
+        return response.Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserSerializer(user, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        print("Save: ", serializer.data)
+        return response.Response(serializer.data, status=status.HTTP_200_OK)
+    return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@decorators.api_view(['POST'])
 def login_user(request):
     if request.method == 'POST':
         username = request.data.get('username')

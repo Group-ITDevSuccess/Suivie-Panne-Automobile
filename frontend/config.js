@@ -4,6 +4,8 @@ export const API_LOGIN = '/accounts/login/';
 export const API_LOGOUT = '/accounts/logout/';
 export const API_GET_ALL_USER = '/accounts/get-all-user/';
 
+export const API_UPDATE_USER = '/accounts/update-user/';
+
 //Navigation
 export const HOME_URL_NAVIGATE = '/';
 export const LOGIN_URL_NAVIGATE = '/accounts/login';
